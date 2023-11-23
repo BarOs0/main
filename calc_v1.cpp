@@ -236,10 +236,10 @@ else if (ww==3){//czas
 else if (ww==4){//temperatura 
     WYNIK(temperatura, sizeof(temperatura)/sizeof(temperatura[0]), ww);
 }
-else if (ww==5){
+else if (ww==5){//natezenie pradu
     WYNIK(natezenie, sizeof(natezenie)/sizeof(natezenie[0]), ww);
 }
-else if (ww==6){
+else if (ww==6){//napiecie
     WYNIK(napiecie, sizeof(napiecie)/sizeof(napiecie[0]), ww);
 }
 else{
