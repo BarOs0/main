@@ -1,6 +1,6 @@
 //Author: Bartlomiej Osiak 
 //Copyright: WIEiT AGH 
-//Name: Kalkulator_jednostek_Si
+//Name: calc
 
 #include <iostream>
 
