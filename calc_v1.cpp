@@ -1,6 +1,6 @@
 //Author: Bartlomiej Osiak 
 //Copyright: WIEiT AGH 
-//Name: calc
+//Name: calc_v1
 
 #include <iostream>
 
