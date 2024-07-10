@@ -21,8 +21,8 @@ class Differentiate{
         derivative = (fun(x0 + h) - fun(x0 - h))/(2*h);
     }
 
-    void get_derivative(){
-        cout << derivative << endl;
+    double get_derivative(){
+        return derivative;
     }
 
 };
@@ -34,10 +34,10 @@ class Differentiate{
 /*int main(){
 
     auto fun = [](double x){
-        return x*x;
+        return x*x; // tworzenie funkcji ktora bede rozniczkowac
     };
 
     Differentiate pochodna(fun,1); //pochodna(funkcja ktora rozniczkuje, punkt w ktorym ma byc pochodna)
-    pochodna.get_derivative();
+    double wynik = pochodna.get_derivative();
 }
 */
