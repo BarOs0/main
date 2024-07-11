@@ -14,10 +14,11 @@ class Resistance{
     private:
 
     double R;
+    bool if_serial;
 
     public:
 
-    Resistance(double r) : R(r){}
+    Resistance(double r) : R(r), if_serial(true){}
 
     void set_R(double r){
         this -> R = r;
@@ -36,6 +37,7 @@ class Resistance{
     Resistance operator||(const Resistance& other) const {
         Resistance result(0);
         result.R = pow(pow((this -> R), (-1)) + pow((other.R),(-1)), (-1));
+        result.if_serial = false;
         return result;
     }
 };
@@ -45,10 +47,11 @@ class Capacity{
     private:
 
     double C;
+    bool if_serial;
 
     public:
 
-    Capacity(double c) : C(c){}
+    Capacity(double c) : C(c), if_serial(true){}
 
     void set_C(double c){
         this -> C = c;
@@ -79,6 +82,7 @@ class Capacity{
     Capacity operator||(const Capacity& other) const {
         Capacity result(0);
         result.C = this -> C + other.C;
+        result.if_serial = false;
         return result;
     }
 };
@@ -88,10 +92,11 @@ class Inductance{
     private:
 
     double L;
+    bool if_serial;
 
     public:
 
-    Inductance(double l) : L(l){}
+    Inductance(double l) : L(l), if_serial(true){}
 
     void set_L(double l){
         this -> L = l;
@@ -122,6 +127,7 @@ class Inductance{
     Inductance operator||(const Inductance& other) const {
         Inductance result(0);
         result.L = pow(pow((this -> L), (-1)) + pow((other.L, (-1)), (-1)), (-1));
+        result.if_serial = false;
         return result;
     }
 };
@@ -149,18 +155,18 @@ class Isource{
 
     private:
 
-    double I;
+    double J;
 
     public:
 
-    Isource(double i) : I(i){}
+    Isource(double j) : J(j){}
 
-    void set_i(double i){
-        this -> I = i;
+    void set_J(double j){
+        this -> J = j;
     }
 
-    double get_I() const {
-        return this -> I;
+    double get_J() const {
+        return this -> J;
     }
 };
 
