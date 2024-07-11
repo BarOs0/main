@@ -29,9 +29,9 @@ class Resistance{
     }
 
     Resistance operator+(const Resistance& other) const {
-            Resistance result(0);
-            result.R = this -> R + other.R;
-            return result;
+        Resistance result(0);
+        result.R = this -> R + other.R;
+        return result;
     }
 
     Resistance operator||(const Resistance& other) const {
@@ -39,6 +39,10 @@ class Resistance{
         result.R = pow(pow((this -> R), (-1)) + pow((other.R),(-1)), (-1));
         result.if_serial = false;
         return result;
+    }
+
+    bool if_serial(){
+        return this -> if_serial;
     }
 };
 
@@ -85,6 +89,10 @@ class Capacity{
         result.if_serial = false;
         return result;
     }
+
+    bool if_serial(){
+        return this -> if_serial;
+    }
 };
 
 class Inductance{
@@ -129,6 +137,10 @@ class Inductance{
         result.L = pow(pow((this -> L), (-1)) + pow((other.L, (-1)), (-1)), (-1));
         result.if_serial = false;
         return result;
+    }
+
+    bool if_serial(){
+        return this -> if_serial;
     }
 };
 
