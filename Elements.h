@@ -60,16 +60,13 @@ class Capacity{
 
     double get_I(function<double(double)>u_t, double t0) const {
         double i = 0;
-        Differentiate dudt(u_t, t0);
-        i = (this -> C) * dudt.get_derivative();
+        i = (this -> C) * differentiate(u_t, t0);
         return i;
     }
 
     double get_U(function<double(double)>i_t ,double u0 ,double t1, double t2) const {
         double u = 0;
-        Integrate sum(t1, t2, i_t);
-        u = (pow((this -> C), (-1)) * sum.get_integration()) + u0;
-        cout << u << endl;
+        u = (pow((this -> C), (-1)) * integrate(i_t, t1, t2)) + u0;
         return u;
     }
 
@@ -106,15 +103,13 @@ class Inductance{
 
     double get_U(function<double(double)>i_t, double t0) const {
         double u = 0;
-        Differentiate didt(i_t, t0);
-        u = (this -> L) * didt.get_derivative();
+        u = (this -> L) * differentiate(i_t, t0);
         return u;
     }
 
     double get_I(function<double(double)>u_t, double t1, double t2) const {
         double i = 0;
-        Integrate sum(t1, t2, u_t);
-        i = (pow((this -> L), (-1)) * sum.get_integration());
+        i = (pow((this -> L), (-1)) * integrate(u_t, t1, t2));
         return i;
     }
 

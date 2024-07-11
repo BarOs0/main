@@ -1,43 +1,36 @@
 #ifndef DIFFERENTIATE_H
 #define DIFFERENTIATE_H
 
-#include <iostream>
 #include <functional>
 
 using namespace std;
 
-class Differentiate{
+double differentiate(function<double(double)>f, double x0){
 
-    private:
-
-    function<double(double)>f;
     const double h = 0.000001;
-    double x0;
-    double derivative;
 
-    public:
+    double derivative = (f(x0 + h) - f(x0 - h)) / (2 * h);
 
-    Differentiate(function<double(double)>fun, double x0): f(fun), x0(x0){//obliczanie pochodnej w punkcie x0 z funkcji fun
-        derivative = (fun(x0 + h) - fun(x0 - h))/(2*h);
-    }
-
-    double get_derivative(){
-        return derivative;
-    }
-
-};
+    return derivative;
+}
 
 #endif
 
-//przyklad uzycia:
+//PRZYKLAD UZYCIA:
 
-/*int main(){
+/*
+int main(){
 
-    auto fun = [](double x){
-        return x*x; // tworzenie funkcji ktora bede rozniczkowac
+    double x0 = 1;
+
+    auto fun = [](double x) -> double{
+        return x * x;
     };
 
-    Differentiate pochodna(fun,1); //pochodna(funkcja ktora rozniczkuje, punkt w ktorym ma byc pochodna)
-    double wynik = pochodna.get_derivative();
+    double wynik;
+
+    wynik = differentiate(fun, x0);
+
+    cout << wynik << endl;
 }
 */
