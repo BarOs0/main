@@ -1,7 +1,6 @@
 #ifndef INTEGRATION_H
 #define INTEGRATION_H
 
-#include <iostream>
 #include <functional>
 
 using namespace std;

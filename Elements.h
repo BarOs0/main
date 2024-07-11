@@ -8,13 +8,14 @@
 #include "Differentiation.h"
 
 using namespace std;
+using std::pow;
 
 class Resistance{
 
     private:
 
     double R;
-    bool if_serial;
+    mutable bool if_serial;
 
     public:
 
@@ -37,11 +38,11 @@ class Resistance{
     Resistance operator||(const Resistance& other) const {
         Resistance result(0);
         result.R = pow(pow((this -> R), (-1)) + pow((other.R),(-1)), (-1));
-        result.if_serial = false;
+        other.if_serial = false;
         return result;
     }
 
-    bool if_serial(){
+    bool is_serial() const {
         return this -> if_serial;
     }
 };
@@ -51,7 +52,7 @@ class Capacity{
     private:
 
     double C;
-    bool if_serial;
+    mutable bool if_serial;
 
     public:
 
@@ -86,11 +87,11 @@ class Capacity{
     Capacity operator||(const Capacity& other) const {
         Capacity result(0);
         result.C = this -> C + other.C;
-        result.if_serial = false;
+        other.if_serial = false;
         return result;
     }
 
-    bool if_serial(){
+    bool is_serial() const {
         return this -> if_serial;
     }
 };
@@ -100,7 +101,7 @@ class Inductance{
     private:
 
     double L;
-    bool if_serial;
+    mutable bool if_serial;
 
     public:
 
@@ -135,11 +136,11 @@ class Inductance{
     Inductance operator||(const Inductance& other) const {
         Inductance result(0);
         result.L = pow(pow((this -> L), (-1)) + pow((other.L, (-1)), (-1)), (-1));
-        result.if_serial = false;
+        other.if_serial = false;
         return result;
     }
 
-    bool if_serial(){
+    bool is_serial() const {
         return this -> if_serial;
     }
 };
