@@ -58,14 +58,14 @@ class Capacity{
         cout << this -> C << endl;
     }
 
-    double get_I(function<double(double)>u_t, double t0){
+    double get_I(function<double(double)>u_t, double t0) const {
         double i = 0;
         Differentiate dudt(u_t, t0);
         i = (this -> C) * dudt.get_derivative();
         return i;
     }
 
-    double get_U(function<double(double)>i_t ,double u0 ,double t1, double t2){
+    double get_U(function<double(double)>i_t ,double u0 ,double t1, double t2) const {
         double u = 0;
         Integrate sum(t1, t2, i_t);
         u = (pow((this -> C), (-1)) * sum.get_integration()) + u0;
@@ -104,14 +104,14 @@ class Inductance{
         cout << this -> L << endl;
     }
 
-    double get_U(function<double(double)>i_t, double t0){
+    double get_U(function<double(double)>i_t, double t0) const {
         double u = 0;
         Differentiate didt(i_t, t0);
         u = (this -> L) * didt.get_derivative();
         return u;
     }
 
-    double get_I(function<double(double)>u_t, double t1, double t2){
+    double get_I(function<double(double)>u_t, double t1, double t2) const {
         double i = 0;
         Integrate sum(t1, t2, u_t);
         i = (pow((this -> L), (-1)) * sum.get_integration());
@@ -128,6 +128,44 @@ class Inductance{
         Inductance result(0);
         result.L = pow(pow((this -> L), (-1)) + pow((other.L, (-1)), (-1)), (-1));
         return result;
+    }
+};
+
+class Vsource{
+
+    private:
+
+    double E;
+
+    public:
+
+    Vsource(double e) : E(e){}
+
+    void set_E(double e){
+        this -> E = e;
+    }
+
+    double get_E() const {
+        return this -> E;
+    }
+};
+
+class Isource{
+
+    private:
+
+    double I;
+
+    public:
+
+    Isource(double i) : I(i){}
+
+    void set_i(double i){
+        this -> I = i;
+    }
+
+    double get_I() const {
+        return this -> I;
     }
 };
 
