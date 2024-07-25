@@ -10,16 +10,34 @@
 using namespace std;
 using std::pow;
 
-class Resistance{
+class Orientation{
+
+    protected:
+
+    mutable bool if_serial;
+
+    Orientation() : if_serial(true){}
+
+    void set_parallel() const {
+        this -> if_serial = false;
+    }
+
+    bool is_serial() const {
+        return this -> if_serial;
+    }
+
+};
+
+class Resistance : protected Orientation{
 
     private:
 
     double R;
-    mutable bool if_serial;
 
     public:
 
-    Resistance(double r) : R(r), if_serial(true){}
+    Resistance(double r) : R(r), Orientation(){}
+    Resistance(const Resistance& other) : R(other.R), Orientation(){}
 
     Resistance operator||(const Resistance& other) const {
         Resistance result(0);
@@ -37,29 +55,24 @@ class Resistance{
         this -> R = r;
     }
 
-    void set_parallel() const {
-        this -> if_serial = false;
+    double get_R() const {
+        return this -> R;
     }
 
-    void read_R(){
-        cout << this -> R << endl;
-    }
-
-    bool is_serial() const {
-        return this -> if_serial;
-    }
+    using Orientation::set_parallel;
+    using Orientation::is_serial;
 };
 
-class Capacity{
+class Capacity : protected Orientation{
 
     private:
 
     double C;
-    mutable bool if_serial;
 
     public:
 
-    Capacity(double c) : C(c), if_serial(true){}
+    Capacity(double c) : C(c), Orientation(){}
+    Capacity(const Capacity& other) : C(other.C), Orientation(){}
 
     Capacity operator+(const Capacity& other) const {
         Capacity result(0);
@@ -89,29 +102,24 @@ class Capacity{
         this -> C = c;
     }
 
-    void set_parallel() const {
-        this -> if_serial = false;
+    double get_C() const {
+        return this -> C;
     }
 
-    void read_C(){
-        cout << this -> C << endl;
-    }
-
-    bool is_serial() const {
-        return this -> if_serial;
-    }
+    using Orientation::set_parallel;
+    using Orientation::is_serial;
 };
 
-class Inductance{
+class Inductance : protected Orientation{
 
     private:
 
     double L;
-    mutable bool if_serial;
 
     public:
 
-    Inductance(double l) : L(l), if_serial(true){}
+    Inductance(double l) : L(l), Orientation(){}
+    Inductance(const Inductance& other) : L(other.L), Orientation(){}
 
     Inductance operator+(const Inductance& other) const {
         Inductance result(0);
@@ -141,20 +149,15 @@ class Inductance{
         this -> L = l;
     }
 
-    void set_parallel() const {
-        this -> if_serial = false;
+    double get_L() const {
+        return this -> L;
     }
 
-    void read_L(){
-        cout << this -> L << endl;
-    }
-
-    bool is_serial() const {
-        return this -> if_serial;
-    }
+    using Orientation::set_parallel;
+    using Orientation::is_serial;
 };
 
-class Vsource{
+class Vsource : protected Orientation{
 
     private:
 
@@ -162,7 +165,7 @@ class Vsource{
 
     public:
 
-    Vsource(double e) : E(e){}
+    Vsource(double e) : E(e), Orientation(){}
 
     void set_E(double e){
         this -> E = e;
@@ -171,9 +174,12 @@ class Vsource{
     double get_E() const {
         return this -> E;
     }
+
+    using Orientation::set_parallel;
+    using Orientation::is_serial;
 };
 
-class Isource{
+class Isource : protected Orientation{
 
     private:
 
@@ -181,7 +187,7 @@ class Isource{
 
     public:
 
-    Isource(double j) : J(j){}
+    Isource(double j) : J(j), Orientation(){}
 
     void set_J(double j){
         this -> J = j;
@@ -190,6 +196,9 @@ class Isource{
     double get_J() const {
         return this -> J;
     }
+
+    using Orientation::set_parallel;
+    using Orientation::is_serial;
 };
 
 #endif

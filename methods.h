@@ -7,8 +7,8 @@
 
 using namespace std;
 
-double simple(){
-        
+double MPO(){
+    
 }
 
 #endif

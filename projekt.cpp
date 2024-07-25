@@ -24,5 +24,5 @@ int main(){
     cout << R4.is_serial() << endl;
     cout << R5.is_serial() << endl;
 
-    Rz.read_R();
+    cout << Rz.get_R() << endl;;
 }
