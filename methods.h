@@ -7,7 +7,7 @@
 
 using namespace std;
 
-double MPO(Resistance R, Vsource E){
+double simple(){
         
 }
 

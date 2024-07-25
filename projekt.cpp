@@ -1,19 +1,22 @@
 #include <iostream>
-#include <vector>
 #include "Elements.h"
 
 using namespace std;
 
 int main(){
 
-    Resistance R1(7.78);
-    Resistance R2(22.34);
-    Resistance R3(8.89989);
-    Resistance R4(5657.7);
-    Resistance R5(54.5);
+    Resistance R1(10);
+    Resistance R2(10);
+    Resistance R3(10);
+    Resistance R4(10);
+    Resistance R5(10);
+
+    R3.set_parallel();
+    R4.set_parallel();
+    R5.set_parallel();
 
     Resistance Rz(0);
-    Rz = R1 + R2 || R3 || R4 + R5;
+    Rz = (R1 + R2) || R3 || (R4 + R5);
 
     cout << R1.is_serial() << endl;
     cout << R2.is_serial() << endl;

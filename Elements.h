@@ -21,12 +21,10 @@ class Resistance{
 
     Resistance(double r) : R(r), if_serial(true){}
 
-    void set_R(double r){
-        this -> R = r;
-    }
-
-    void read_R(){
-        cout << this -> R << endl;
+    Resistance operator||(const Resistance& other) const {
+        Resistance result(0);
+        result.R = pow(pow((this -> R), (-1)) + pow((other.R),(-1)), (-1));
+        return result;
     }
 
     Resistance operator+(const Resistance& other) const {
@@ -35,11 +33,16 @@ class Resistance{
         return result;
     }
 
-    Resistance operator||(const Resistance& other) const {
-        Resistance result(0);
-        result.R = pow(pow((this -> R), (-1)) + pow((other.R),(-1)), (-1));
-        other.if_serial = false;
-        return result;
+    void set_R(double r){
+        this -> R = r;
+    }
+
+    void set_parallel() const {
+        this -> if_serial = false;
+    }
+
+    void read_R(){
+        cout << this -> R << endl;
     }
 
     bool is_serial() const {
@@ -58,12 +61,16 @@ class Capacity{
 
     Capacity(double c) : C(c), if_serial(true){}
 
-    void set_C(double c){
-        this -> C = c;
+    Capacity operator+(const Capacity& other) const {
+        Capacity result(0);
+        result.C = pow(pow((this -> C), (-1)) + pow((other.C), (-1)), (-1));
+        return result;
     }
 
-    void read_C(){
-        cout << this -> C << endl;
+    Capacity operator||(const Capacity& other) const {
+        Capacity result(0);
+        result.C = this -> C + other.C;
+        return result;
     }
 
     double get_I(function<double(double)>u_t, double t0) const {
@@ -78,17 +85,16 @@ class Capacity{
         return u;
     }
 
-    Capacity operator+(const Capacity& other) const {
-        Capacity result(0);
-        result.C = pow(pow((this -> C), (-1)) + pow((other.C), (-1)), (-1));
-        return result;
+    void set_C(double c){
+        this -> C = c;
     }
 
-    Capacity operator||(const Capacity& other) const {
-        Capacity result(0);
-        result.C = this -> C + other.C;
-        other.if_serial = false;
-        return result;
+    void set_parallel() const {
+        this -> if_serial = false;
+    }
+
+    void read_C(){
+        cout << this -> C << endl;
     }
 
     bool is_serial() const {
@@ -107,12 +113,16 @@ class Inductance{
 
     Inductance(double l) : L(l), if_serial(true){}
 
-    void set_L(double l){
-        this -> L = l;
+    Inductance operator+(const Inductance& other) const {
+        Inductance result(0);
+        result.L = this -> L + other.L;
+        return result;
     }
 
-    void read_L(){
-        cout << this -> L << endl;
+    Inductance operator||(const Inductance& other) const {
+        Inductance result(0);
+        result.L = pow(pow((this -> L), (-1)) + pow((other.L, (-1)), (-1)), (-1));
+        return result;
     }
 
     double get_U(function<double(double)>i_t, double t0) const {
@@ -127,17 +137,16 @@ class Inductance{
         return i;
     }
 
-    Inductance operator+(const Inductance& other) const {
-        Inductance result(0);
-        result.L = this -> L + other.L;
-        return result;
+    void set_L(double l){
+        this -> L = l;
     }
 
-    Inductance operator||(const Inductance& other) const {
-        Inductance result(0);
-        result.L = pow(pow((this -> L), (-1)) + pow((other.L, (-1)), (-1)), (-1));
-        other.if_serial = false;
-        return result;
+    void set_parallel() const {
+        this -> if_serial = false;
+    }
+
+    void read_L(){
+        cout << this -> L << endl;
     }
 
     bool is_serial() const {
