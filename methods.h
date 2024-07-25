@@ -7,7 +7,7 @@
 
 using namespace std;
 
-double MPO(){
+double th(){
     
 }
 

@@ -5,24 +5,20 @@ using namespace std;
 
 int main(){
 
-    Resistance R1(10);
-    Resistance R2(10);
-    Resistance R3(10);
-    Resistance R4(10);
-    Resistance R5(10);
+    Resistance R1(2);
+    Resistance R2(1);
+    Resistance R3(1);
 
+    Vsource E1(10);
+    Vsource E2(5);
+
+    R2.set_parallel();
     R3.set_parallel();
-    R4.set_parallel();
-    R5.set_parallel();
-
-    Resistance Rz(0);
-    Rz = (R1 + R2) || R3 || (R4 + R5);
+    E2.set_parallel();
 
     cout << R1.is_serial() << endl;
     cout << R2.is_serial() << endl;
     cout << R3.is_serial() << endl;
-    cout << R4.is_serial() << endl;
-    cout << R5.is_serial() << endl;
-
-    cout << Rz.get_R() << endl;;
+    cout << E1.is_serial() << endl;
+    cout << E2.is_serial() << endl;
 }

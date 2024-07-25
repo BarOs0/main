@@ -37,7 +37,6 @@ class Resistance : protected Orientation{
     public:
 
     Resistance(double r) : R(r), Orientation(){}
-    Resistance(const Resistance& other) : R(other.R), Orientation(){}
 
     Resistance operator||(const Resistance& other) const {
         Resistance result(0);
@@ -72,7 +71,6 @@ class Capacity : protected Orientation{
     public:
 
     Capacity(double c) : C(c), Orientation(){}
-    Capacity(const Capacity& other) : C(other.C), Orientation(){}
 
     Capacity operator+(const Capacity& other) const {
         Capacity result(0);
@@ -119,7 +117,6 @@ class Inductance : protected Orientation{
     public:
 
     Inductance(double l) : L(l), Orientation(){}
-    Inductance(const Inductance& other) : L(other.L), Orientation(){}
 
     Inductance operator+(const Inductance& other) const {
         Inductance result(0);
