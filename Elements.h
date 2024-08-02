@@ -41,6 +41,8 @@ class Resistance : protected Orientation{
     Resistance operator||(const Resistance& other) const {
         Resistance result(0);
         result.R = pow(pow((this -> R), (-1)) + pow((other.R),(-1)), (-1));
+        other.set_parallel();
+        this -> set_parallel();
         return result;
     }
 
@@ -48,6 +50,18 @@ class Resistance : protected Orientation{
         Resistance result(0);
         result.R = this -> R + other.R;
         return result;
+    }
+
+    double get_I(function<double(double)>u_t, double t0) const {
+        double i = 0;
+        i = (pow((this -> R), (-1)) * u_t(t0));
+        return i;
+    }
+
+    double get_U(function<double(double)>i_t, double t0) const {
+        double u = 0;
+        u = (this -> R) * i_t(t0);
+        return u;
     }
 
     void set_R(double r){
@@ -81,6 +95,8 @@ class Capacity : protected Orientation{
     Capacity operator||(const Capacity& other) const {
         Capacity result(0);
         result.C = this -> C + other.C;
+        other.set_parallel();
+        this -> set_parallel();
         return result;
     }
 
@@ -127,6 +143,8 @@ class Inductance : protected Orientation{
     Inductance operator||(const Inductance& other) const {
         Inductance result(0);
         result.L = pow(pow((this -> L), (-1)) + pow((other.L, (-1)), (-1)), (-1));
+        other.set_parallel();
+        this -> set_parallel();
         return result;
     }
 
@@ -148,50 +166,6 @@ class Inductance : protected Orientation{
 
     double get_L() const {
         return this -> L;
-    }
-
-    using Orientation::set_parallel;
-    using Orientation::is_serial;
-};
-
-class Vsource : protected Orientation{
-
-    private:
-
-    double E;
-
-    public:
-
-    Vsource(double e) : E(e), Orientation(){}
-
-    void set_E(double e){
-        this -> E = e;
-    }
-
-    double get_E() const {
-        return this -> E;
-    }
-
-    using Orientation::set_parallel;
-    using Orientation::is_serial;
-};
-
-class Isource : protected Orientation{
-
-    private:
-
-    double J;
-
-    public:
-
-    Isource(double j) : J(j), Orientation(){}
-
-    void set_J(double j){
-        this -> J = j;
-    }
-
-    double get_J() const {
-        return this -> J;
     }
 
     using Orientation::set_parallel;
