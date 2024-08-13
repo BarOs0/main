@@ -1,15 +1,16 @@
 #include <iostream>
 #include <functional>
-#include "Elements.h"
+#include <cmath>
+#include "Signals.h"
 
 using namespace std;
 
 int main(){
 
-    Resistance R1(2);
-
     auto f = [](double x) -> double{
-        return 4;
+        return (4*sin(100*x));
     };
+
+   cout << average_value(f, 0, 3);
 
 }

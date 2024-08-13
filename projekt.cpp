@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Elements.h"
+#include "Signals.h"
 
 using namespace std;
 
