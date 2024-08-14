@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cmath>
 #include <functional>
-#include "Integration.h"
+#include "Integration_trp.h"
 #include "Differentiation.h"
 
 using namespace std;

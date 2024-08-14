@@ -2,7 +2,7 @@
 #define SIGNALS_H
 
 #include <cmath>
-#include "Integration.h"
+#include "Integration_trp.h"
 
 using namespace std;
 
