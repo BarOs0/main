@@ -52,16 +52,24 @@ class Resistance : protected Orientation{
         return result;
     }
 
-    double get_I(function<double(double)>u_t, double t0) const {
-        double i = 0;
-        i = (pow((this -> R), (-1)) * u_t(t0));
-        return i;
+    double get_I(function<double(double)>u_t, double t0, double i = 0) const {
+        if(i == 0){
+            i = (pow((this -> R), (-1)) * u_t(t0));
+            return i;
+        }
+        else{
+            return i;
+        }
     }
 
-    double get_U(function<double(double)>i_t, double t0) const {
-        double u = 0;
-        u = (this -> R) * i_t(t0);
-        return u;
+    double get_U(function<double(double)>i_t, double t0, double u = 0) const {
+        if(u == 0){
+            u = (this -> R) * i_t(t0);
+            return u;
+        }
+        else{
+            return u;
+        }
     }
 
     void set_R(double r){
@@ -100,16 +108,24 @@ class Capacity : protected Orientation{
         return result;
     }
 
-    double get_I(function<double(double)>u_t, double t0) const {
-        double i = 0;
-        i = (this -> C) * differentiate(u_t, t0);
-        return i;
+    double get_I(function<double(double)>u_t, double t0, double i = 0) const {
+        if(i == 0){
+            i = (this -> C) * differentiate(u_t, t0);
+            return i;
+        }
+        else{
+            return i;
+        }
     }
 
-    double get_U(function<double(double)>i_t ,double u0 ,double t1, double t2) const {
-        double u = 0;
-        u = (pow((this -> C), (-1)) * integrate(i_t, t1, t2)) + u0;
-        return u;
+    double get_U(function<double(double)>i_t ,double u0 ,double t1, double t2, double u = 0) const {
+        if(u == 0){
+            u = (pow((this -> C), (-1)) * integrate(i_t, t1, t2)) + u0;
+            return u;
+        }
+        else{
+            return u;
+        }
     }
 
     void set_C(double c){
@@ -148,16 +164,24 @@ class Inductance : protected Orientation{
         return result;
     }
 
-    double get_U(function<double(double)>i_t, double t0) const {
-        double u = 0;
-        u = (this -> L) * differentiate(i_t, t0);
-        return u;
+    double get_U(function<double(double)>i_t, double t0, double u = 0) const {
+        if(u == 0){
+            u = (this -> L) * differentiate(i_t, t0);
+            return u;
+        }
+        else{
+            return u;
+        }
     }
 
-    double get_I(function<double(double)>u_t, double t1, double t2) const {
-        double i = 0;
-        i = (pow((this -> L), (-1)) * integrate(u_t, t1, t2));
-        return i;
+    double get_I(function<double(double)>u_t, double t1, double t2, double i = 0) const {
+        if(i == 0){
+            i = (pow((this -> L), (-1)) * integrate(u_t, t1, t2));
+            return i;
+        }
+        else{
+            return i;
+        }
     }
 
     void set_L(double l){
