@@ -1,8 +1,8 @@
 #include <iostream>
+#include <vector>
+#include <any>
 #include "Elements.h"
 #include "Signals.h"
-#include <vector>
-#include <functional>
 
 using namespace std;
 
@@ -11,40 +11,60 @@ class Circuit{
     private:
 
     function<double(double)>u_t;
-    vector<Resistance>serial;
-    vector<Resistance>parallel;
+    vector<any>serial;
+    vector<any>parallel;
 
     public:
 
-    Circuit(function<double(double)>f, vector<Resistance>R){
-        for(int i = 0; i < R.size(); i++){
-            if(R[i].is_serial() == 1){
-                serial.push_back(R[i]);
+    Circuit(function<double(double)>f, vector<any>elements){
+        for(int i = 0; i < elements.size(); i++){
+            try{
+                Resistance& r = any_cast<Resistance&>(elements[i]);
+                if(r.is_serial() == true){
+                    serial.push_back(r);
+                }
+                else{
+                    parallel.push_back(r);
+                }
+                }catch (const bad_any_cast& error){
+                    cerr << "casting on Resistance error: " << error.what() << endl;
             }
-            else{
-                parallel.push_back(R[i]);
+            try{
+                Capacity& c = any_cast<Capacity&>(elements[i]);
+                if(c.is_serial() == true){
+                    serial.push_back(c);
+                }
+                else{
+                    parallel.push_back(c);
+                }
+                }catch (const bad_any_cast& error){
+                    cerr << "casting on Capacity error: " << error.what() << endl;
             }
+            try{
+                Inductance& l = any_cast<Inductance&>(elements[i]);
+                if(l.is_serial() == true){
+                    serial.push_back(l);
+                }
+                else{
+                    parallel.push_back(l);
+                }
+                }catch (const bad_any_cast& error){
+                    cerr << "casting on Inductance error: " << error.what() << endl;
+            }
+
         }
         this -> u_t = f;
     }
 
-    void read_serial(){
-        for(int i = 0; i < serial.size(); i++){
-            cout << serial[i].get_R() << endl;
-        }
-    }
-
-    void read_parallel(){
-        for(int i = 0; i < parallel.size(); i++){
-            cout << parallel[i].get_R() << endl;
-        }
+    void calculate_circuit(Resistance rz){
+        
     }
 };
 
 int main(){
 
     auto u_t = [](double t) -> double{
-        return t * t;
+        return 5;
     };
 
     Resistance R1(1);
@@ -54,11 +74,6 @@ int main(){
     Resistance Rz(0);
 
     Rz = R1 + (R2 || R3);
-
-    //cout << R1.is_serial() << endl;
-    //cout << R2.is_serial() << endl;
-    //cout << R3.is_serial() << endl;
-
     Circuit C1(u_t, {R1, R2, R3});
     
 
