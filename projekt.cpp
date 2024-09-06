@@ -15,6 +15,7 @@ int main(){
     Resistance R5(5);
     Resistance R21(0);
     Resistance R54(0);
+    Resistance R6(6); 
 
     R2.set_parallel(R1);
     R3.set_parallel(R2);
@@ -35,5 +36,9 @@ int main(){
     cout << R5.get_reference_id() << endl;
     cout << endl;
     cout << R54.get_sign() << endl;
+    cout << endl;
+
+    cout << R6.get_sign() << endl;
+    cout << R6.get_reference_id() << endl;
     cout << endl;
 }

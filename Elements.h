@@ -24,6 +24,7 @@ class Orientation{
 
     protected:
 
+    int id;
     string sign;
     string reference_id;
     mutable bool is_serial;
@@ -64,19 +65,21 @@ class Resistance : public Element, protected Orientation{//wszystkie klasy musza
     public:
 
     Resistance(double r) : R(r), Orientation(){
-        this -> sign = "R" + to_string(counter++);
+        this -> id = counter;
+        this -> sign = "R" + to_string(id);
+        counter++;
     }
 
     Resistance operator||(const Resistance& other) const {
         Resistance result(0);
-        result.set_sign("R" + to_string((this -> counter)) + to_string(other.counter));
+        result.set_sign("R" + to_string((this -> id)) + to_string(other.id));
         result.R = pow(pow((this -> R), (-1)) + pow((other.R),(-1)), (-1));
         return result;
     }
 
     Resistance operator+(const Resistance& other) const {
         Resistance result(0);
-        result.set_sign("R" + to_string((this -> counter)) + to_string(other.counter));
+        result.set_sign("R" + to_string((this -> id)) + to_string(other.id));
         result.R = this -> R + other.R;
         return result;
     }
@@ -135,19 +138,21 @@ class Capacity : public Element, protected Orientation{
     public:
 
     Capacity(double c) : C(c), Orientation(){
-        this -> sign = "C" + to_string(counter++);
+        this -> id = counter;
+        this -> sign = "C" + to_string(id);
+        counter++;
     }
 
     Capacity operator+(const Capacity& other) const {
         Capacity result(0);
-        result.set_sign("C" + to_string((this -> counter)) + to_string(other.counter));
+        result.set_sign("C" + to_string((this -> id)) + to_string(other.id));
         result.C = pow(pow((this -> C), (-1)) + pow((other.C), (-1)), (-1));
         return result;
     }
 
     Capacity operator||(const Capacity& other) const {
         Capacity result(0);
-        result.set_sign("C" + to_string((this -> counter)) + to_string(other.counter));
+        result.set_sign("C" + to_string((this -> id)) + to_string(other.id));
         result.C = this -> C + other.C;
         return result;
     }
@@ -206,19 +211,21 @@ class Inductance : public Element, protected Orientation{
     public:
 
     Inductance(double l) : L(l), Orientation(){
-        this -> sign = "L" + to_string(counter++);
+        this -> id = counter;
+        this -> sign = "L" + to_string(id);
+        counter++;
     }
 
     Inductance operator+(const Inductance& other) const {
         Inductance result(0);
-        result.set_sign("L" + to_string((this -> counter)) + to_string(other.counter));
+        result.set_sign("L" + to_string((this -> id)) + to_string(other.id));
         result.L = this -> L + other.L;
         return result;
     }
 
     Inductance operator||(const Inductance& other) const {
         Inductance result(0);
-        result.set_sign("L" + to_string((this -> counter)) + to_string(other.counter));
+        result.set_sign("L" + to_string((this -> id)) + to_string(other.id));
         result.L = pow(pow((this -> L), (-1)) + pow((other.L, (-1)), (-1)), (-1));
         return result;
     }
