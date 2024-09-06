@@ -13,30 +13,27 @@ int main(){
     Resistance R3(3);
     Resistance R4(4);
     Resistance R5(5);
-    Resistance Rz(0);
+    Resistance R21(0);
+    Resistance R54(0);
 
     R2.set_parallel(R1);
     R3.set_parallel(R2);
     R4.set_serial(R3);
     R5.set_serial(R4);
 
-    cout << R1.get_sign() << endl;
-    cout << R1.get_reference_id() << endl;
-    cout << endl;
+    R21 = R2 || R1;
 
     cout << R2.get_sign() << endl;
     cout << R2.get_reference_id() << endl;
     cout << endl;
-
-    cout << R3.get_sign() << endl;
-    cout << R3.get_reference_id() << endl;
+    cout << R21.get_sign() << endl;
     cout << endl;
 
-    cout << R4.get_sign() << endl;
-    cout << R4.get_reference_id() << endl;
-    cout << endl;
+    R54 = R5 + R4;
 
     cout << R5.get_sign() << endl;
     cout << R5.get_reference_id() << endl;
+    cout << endl;
+    cout << R54.get_sign() << endl;
     cout << endl;
 }
