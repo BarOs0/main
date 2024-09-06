@@ -6,75 +6,37 @@
 
 using namespace std;
 
-class Circuit{
-
-    private:
-
-    function<double(double)>u_t;
-    vector<any>serial;
-    vector<any>parallel;
-
-    public:
-
-    Circuit(function<double(double)>f, vector<any>elements){
-        for(int i = 0; i < elements.size(); i++){
-            try{
-                Resistance& r = any_cast<Resistance&>(elements[i]);
-                if(r.is_serial() == true){
-                    serial.push_back(r);
-                }
-                else{
-                    parallel.push_back(r);
-                }
-                }catch (const bad_any_cast& error){
-                    cerr << "casting on Resistance error: " << error.what() << endl;
-            }
-            try{
-                Capacity& c = any_cast<Capacity&>(elements[i]);
-                if(c.is_serial() == true){
-                    serial.push_back(c);
-                }
-                else{
-                    parallel.push_back(c);
-                }
-                }catch (const bad_any_cast& error){
-                    cerr << "casting on Capacity error: " << error.what() << endl;
-            }
-            try{
-                Inductance& l = any_cast<Inductance&>(elements[i]);
-                if(l.is_serial() == true){
-                    serial.push_back(l);
-                }
-                else{
-                    parallel.push_back(l);
-                }
-                }catch (const bad_any_cast& error){
-                    cerr << "casting on Inductance error: " << error.what() << endl;
-            }
-
-        }
-        this -> u_t = f;
-    }
-
-    void calculate_circuit(Resistance rz){
-        
-    }
-};
-
 int main(){
-
-    auto u_t = [](double t) -> double{
-        return 5;
-    };
 
     Resistance R1(1);
     Resistance R2(2);
     Resistance R3(3);
-
+    Resistance R4(4);
+    Resistance R5(5);
     Resistance Rz(0);
 
-    Rz = R1 + (R2 || R3);
-    Circuit C1(u_t, {R1, R2, R3});
-    
+    R2.set_parallel(R1);
+    R3.set_parallel(R2);
+    R4.set_serial(R3);
+    R5.set_serial(R4);
 
+    cout << R1.get_sign() << endl;
+    cout << R1.get_reference_id() << endl;
+    cout << endl;
+
+    cout << R2.get_sign() << endl;
+    cout << R2.get_reference_id() << endl;
+    cout << endl;
+
+    cout << R3.get_sign() << endl;
+    cout << R3.get_reference_id() << endl;
+    cout << endl;
+
+    cout << R4.get_sign() << endl;
+    cout << R4.get_reference_id() << endl;
+    cout << endl;
+
+    cout << R5.get_sign() << endl;
+    cout << R5.get_reference_id() << endl;
+    cout << endl;
 }
