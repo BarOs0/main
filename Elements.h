@@ -24,7 +24,7 @@ class Orientation{
 
     protected:
 
-    int id;
+    int counter_id;
     string sign;
     string reference_id;
     mutable bool is_serial;
@@ -60,26 +60,26 @@ class Resistance : public Element, protected Orientation{//wszystkie klasy musza
     private:
 
     double R;
-    static int counter;
+    static int r_counter;
 
     public:
 
     Resistance(double r) : R(r), Orientation(){
-        this -> id = counter;
-        this -> sign = "R" + to_string(id);
-        counter++;
+        this -> counter_id = r_counter;
+        this -> sign = "R" + to_string(counter_id);
+        r_counter++;
     }
 
     Resistance operator||(const Resistance& other) const {
         Resistance result(0);
-        result.set_sign("R" + to_string((this -> id)) + to_string(other.id));
+        result.set_sign("R" + to_string((this -> counter_id)) + to_string(other.counter_id));
         result.R = pow(pow((this -> R), (-1)) + pow((other.R),(-1)), (-1));
         return result;
     }
 
     Resistance operator+(const Resistance& other) const {
         Resistance result(0);
-        result.set_sign("R" + to_string((this -> id)) + to_string(other.id));
+        result.set_sign("R" + to_string((this -> counter_id)) + to_string(other.counter_id));
         result.R = this -> R + other.R;
         return result;
     }
@@ -120,39 +120,38 @@ class Resistance : public Element, protected Orientation{//wszystkie klasy musza
         return this -> reference_id;
     }
 
-    using Orientation::set_sign;
     using Orientation::set_serial;
     using Orientation::set_parallel;
     using Orientation::is_it_serial;
 };
 
-int Resistance::counter = 1;
+int Resistance::r_counter = 1;
 
 class Capacity : public Element, protected Orientation{
 
     private:
 
     double C;
-    static int counter;
+    static int c_counter;
 
     public:
 
     Capacity(double c) : C(c), Orientation(){
-        this -> id = counter;
-        this -> sign = "C" + to_string(id);
-        counter++;
+        this -> counter_id = c_counter;
+        this -> sign = "C" + to_string(counter_id);
+        c_counter++;
     }
 
     Capacity operator+(const Capacity& other) const {
         Capacity result(0);
-        result.set_sign("C" + to_string((this -> id)) + to_string(other.id));
+        result.set_sign("C" + to_string((this -> counter_id)) + to_string(other.counter_id));
         result.C = pow(pow((this -> C), (-1)) + pow((other.C), (-1)), (-1));
         return result;
     }
 
     Capacity operator||(const Capacity& other) const {
         Capacity result(0);
-        result.set_sign("C" + to_string((this -> id)) + to_string(other.id));
+        result.set_sign("C" + to_string((this -> counter_id)) + to_string(other.counter_id));
         result.C = this -> C + other.C;
         return result;
     }
@@ -193,39 +192,38 @@ class Capacity : public Element, protected Orientation{
         return this -> reference_id;
     }
 
-    using Orientation::set_sign;
     using Orientation::set_serial;
     using Orientation::set_parallel;
     using Orientation::is_it_serial;
 };
 
-int Capacity::counter = 1;
+int Capacity::c_counter = 1;
 
 class Inductance : public Element, protected Orientation{
 
     private:
 
     double L;
-    static int counter;
+    static int l_counter;
 
     public:
 
     Inductance(double l) : L(l), Orientation(){
-        this -> id = counter;
-        this -> sign = "L" + to_string(id);
-        counter++;
+        this -> counter_id = l_counter;
+        this -> sign = "L" + to_string(counter_id);
+        l_counter++;
     }
 
     Inductance operator+(const Inductance& other) const {
         Inductance result(0);
-        result.set_sign("L" + to_string((this -> id)) + to_string(other.id));
+        result.set_sign("L" + to_string((this -> counter_id)) + to_string(other.counter_id));
         result.L = this -> L + other.L;
         return result;
     }
 
     Inductance operator||(const Inductance& other) const {
         Inductance result(0);
-        result.set_sign("L" + to_string((this -> id)) + to_string(other.id));
+        result.set_sign("L" + to_string((this -> counter_id)) + to_string(other.counter_id));
         result.L = pow(pow((this -> L), (-1)) + pow((other.L, (-1)), (-1)), (-1));
         return result;
     }
@@ -266,12 +264,11 @@ class Inductance : public Element, protected Orientation{
         return this -> reference_id;
     }
 
-    using Orientation::set_sign;
     using Orientation::set_serial;
     using Orientation::set_parallel;
     using Orientation::is_it_serial;
 };
 
-int Inductance::counter = 1;
+int Inductance::l_counter = 1;
 
 #endif

@@ -11,34 +11,28 @@ int main(){
     Resistance R1(1);
     Resistance R2(2);
     Resistance R3(3);
-    Resistance R4(4);
-    Resistance R5(5);
-    Resistance R21(0);
-    Resistance R54(0);
-    Resistance R6(6); 
 
-    R2.set_parallel(R1);
-    R3.set_parallel(R2);
-    R4.set_serial(R3);
-    R5.set_serial(R4);
+    Capacity C1(1);
+    Capacity C2(2);
+    Capacity C3(3);
 
-    R21 = R2 || R1;
+    Inductance L1(1);
+    Inductance L2(2);
+    Inductance L3(3);
 
-    cout << R2.get_sign() << endl;
-    cout << R2.get_reference_id() << endl;
+    Resistance R23(0);
+    Capacity C23(0);
+    Inductance L23(0);
+
+    R23 = R2 + R3;
+    C23 = C2 + C3;
+    L23 = L2 + L3;
+
+    R1.set_serial(C1);
+    C2.set_parallel(L1);
+
+    R1.is_it_serial(C1);
+    C2.is_it_serial(L1);
     cout << endl;
-    cout << R21.get_sign() << endl;
-    cout << endl;
-
-    R54 = R5 + R4;
-
-    cout << R5.get_sign() << endl;
-    cout << R5.get_reference_id() << endl;
-    cout << endl;
-    cout << R54.get_sign() << endl;
-    cout << endl;
-
-    cout << R6.get_sign() << endl;
-    cout << R6.get_reference_id() << endl;
-    cout << endl;
+    cout << R1.is_it_serial();
 }
