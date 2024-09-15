@@ -42,12 +42,18 @@ class Orientation{
 
     }
 
-    bool is_it_serial() const {//przeciazona metoda jesli element ma nie miec zadnego elementu odniesiena np: jest ustawiony (domyslnie) szeregowo ze zrodlem napiecia
+    //kolejne dwie metody sa typu int bo nie mam pomyslu jak to inaczej rozwiazac, wydaje sie byc to git rozwiazanie
+    int is_it_serial() const {//przeciazona metoda jesli element ma nie miec zadnego elementu odniesiena np: jest ustawiony (domyslnie) szeregowo ze zrodlem napiecia
         return this -> is_serial;
     }
 
-    bool is_it_serial(const Element& element) const {
-        return this -> is_serial;
+    int is_it_serial(const Element& element) const {
+        if(this -> reference_id == element.get_sign()){
+            return this -> is_serial;
+        }
+        else{
+            return 2;//niech bedzie ze kodem bledu odniesienia bedzie 2 xd
+        }
     }
 
     void set_sign(string new_sign){
@@ -60,14 +66,14 @@ class Resistance : public Element, protected Orientation{//wszystkie klasy musza
     private:
 
     double R;
-    static int r_counter;
+    static int R_counter;
 
     public:
 
     Resistance(double r) : R(r), Orientation(){
-        this -> counter_id = r_counter;
+        this -> counter_id = R_counter;
         this -> sign = "R" + to_string(counter_id);
-        r_counter++;
+        R_counter++;
     }
 
     Resistance operator||(const Resistance& other) const {
@@ -125,21 +131,21 @@ class Resistance : public Element, protected Orientation{//wszystkie klasy musza
     using Orientation::is_it_serial;
 };
 
-int Resistance::r_counter = 1;
+int Resistance::R_counter = 1;
 
 class Capacity : public Element, protected Orientation{
 
     private:
 
     double C;
-    static int c_counter;
+    static int C_counter;
 
     public:
 
     Capacity(double c) : C(c), Orientation(){
-        this -> counter_id = c_counter;
+        this -> counter_id = C_counter;
         this -> sign = "C" + to_string(counter_id);
-        c_counter++;
+        C_counter++;
     }
 
     Capacity operator+(const Capacity& other) const {
@@ -197,21 +203,21 @@ class Capacity : public Element, protected Orientation{
     using Orientation::is_it_serial;
 };
 
-int Capacity::c_counter = 1;
+int Capacity::C_counter = 1;
 
 class Inductance : public Element, protected Orientation{
 
     private:
 
     double L;
-    static int l_counter;
+    static int L_counter;
 
     public:
 
     Inductance(double l) : L(l), Orientation(){
-        this -> counter_id = l_counter;
+        this -> counter_id = L_counter;
         this -> sign = "L" + to_string(counter_id);
-        l_counter++;
+        L_counter++;
     }
 
     Inductance operator+(const Inductance& other) const {
@@ -269,6 +275,82 @@ class Inductance : public Element, protected Orientation{
     using Orientation::is_it_serial;
 };
 
-int Inductance::l_counter = 1;
+int Inductance::L_counter = 1;
+
+class Vsource : public Element, protected Orientation{
+
+    private:
+
+    double E;
+    static int E_counter;
+
+    public:
+
+    Vsource(double e) : E(e), Orientation(){
+        this -> counter_id = E_counter;
+        this -> sign = "E" + to_string(counter_id);
+        E_counter++;
+    }
+
+    void set_E(double e){
+        this -> E = e;
+    }
+
+    double get_E() const {
+        return this -> E;
+    }
+
+    virtual string get_sign() const override {
+        return this -> sign;
+    }
+
+    virtual string get_reference_id() const override {
+        return this -> reference_id;
+    }
+
+    using Orientation::set_serial;
+    using Orientation::set_parallel;
+    using Orientation::is_it_serial;
+};
+
+int Vsource::E_counter = 1;
+
+class Isource : public Element, protected Orientation{
+
+    private:
+
+    double J;
+    static int J_counter;
+
+    public:
+
+    Isource(double i) : J(i), Orientation(){
+        this -> counter_id = J_counter;
+        this -> sign = "J" + to_string(counter_id);
+        J_counter++;
+    }
+
+    void set_J(double i){
+        this -> J = i;
+    }
+
+    double get_J() const {
+        return this -> J;
+    }
+
+    virtual string get_sign() const override {
+        return this -> sign;
+    }
+
+    virtual string get_reference_id() const override {
+        return this -> reference_id;
+    }
+
+    using Orientation::set_serial;
+    using Orientation::set_parallel;
+    using Orientation::is_it_serial;
+};
+
+int Isource::J_counter = 1;
 
 #endif
