@@ -5,6 +5,18 @@
 
 using namespace std;
 
+class Loop{
+
+    private:
+
+    vector<Element> Elements;
+
+    public:
+
+    Loop(vector<Element> elements) : Elements(elements){}
+
+};
+
 class Circuit{
 
     private:
@@ -43,7 +55,9 @@ class Circuit{
     Circuit(vector<Inductance> inductances, vector<Vsource> e_sources) : Inductances(inductances), E_sources(e_sources){}
     Circuit(vector<Inductance> inductances, vector<Isource> j_sources) : Inductances(inductances), J_sources(j_sources){}
 
-    void calculate(){
-        
+    void get_impedance(){
+        for(int i = 0; i < Capacitances.size(); i++){
+            
+        }
     }
 };

@@ -4,20 +4,43 @@
 #include <iostream>
 #include <cmath>
 #include <functional>
+#include <complex>
 #include "Integration_trp.h"
 #include "Differentiation.h"
 
 using namespace std;
-using std::pow;
 
-class Element{//klasa do polimorfizmu (wykorzystuje do podania dowolnego argumentu w ustawianiu: szeregowo/rownolegle)
+class Element{ //klasa do polimorfizmu (wykorzystuje do podania dowolnego argumentu w ustawianiu: szeregowo/rownolegle)
 
     public:
 
+    complex<double> Impedance;
+
     virtual ~Element() = default;
 
-    virtual string get_sign() const = 0;//metody wirtualne, musza byc tutaj zdeklarowane aby moc wywolywac funkcje ustawiajace serial/parallel na obiektach typu element
+    virtual string get_sign() const = 0; //metody wirtualne, musza byc tutaj zdeklarowane aby moc wywolywac funkcje ustawiajace serial/parallel na obiektach typu element
     virtual string get_reference_id() const = 0; 
+};
+
+class Source{
+
+    protected:
+
+    double Amplitude;
+    double Omega;
+    double Phase;
+    function<double(double)> Fun;
+    
+    Source(double amplitude, double omega, double phase) : Amplitude(amplitude), Omega(omega), Phase(phase){
+        auto fun = [this](double t) -> double{
+            return (Amplitude) * sin(Omega * t + Phase);
+        };
+        Fun = fun; 
+    }
+
+    function<double(double)> get_source_fun(){
+        return this -> Fun;
+    }
 };
 
 class Orientation{
@@ -29,7 +52,7 @@ class Orientation{
     string reference_id;
     mutable bool is_serial;
 
-    Orientation() : is_serial(true){}//domyslnie elementy sa ustawiane szeregowo
+    Orientation() : is_serial(true){} //domyslnie elementy sa ustawiane szeregowo
 
     void set_serial(const Element& element){
         this -> reference_id = element.get_sign();
@@ -43,7 +66,7 @@ class Orientation{
     }
 
     //kolejne dwie metody sa typu int bo nie mam pomyslu jak to inaczej rozwiazac, wydaje sie byc to git rozwiazanie
-    int is_it_serial() const {//przeciazona metoda jesli element ma nie miec zadnego elementu odniesiena np: jest ustawiony (domyslnie) szeregowo ze zrodlem napiecia
+    int is_it_serial() const { //przeciazona metoda jesli element ma nie miec zadnego elementu odniesiena np: jest ustawiony (domyslnie) szeregowo ze zrodlem napiecia
         return this -> is_serial;
     }
 
@@ -52,7 +75,7 @@ class Orientation{
             return this -> is_serial;
         }
         else{
-            return 2;//niech bedzie ze kodem bledu odniesienia bedzie 2 xd
+            return 2; //niech bedzie ze kodem bledu odniesienia bedzie 2 xd
         }
     }
 
@@ -61,7 +84,7 @@ class Orientation{
     }
 };
 
-class Resistance : public Element, protected Orientation{//wszystkie klasy musza dziedziczyc po klasie Element (polimorfizm)
+class Resistance : public Element, protected Orientation{ //wszystkie klasy musza dziedziczyc po klasie Element (polimorfizm)
 
     private:
 
@@ -71,6 +94,7 @@ class Resistance : public Element, protected Orientation{//wszystkie klasy musza
     public:
 
     Resistance(double r) : R(r), Orientation(){
+        this -> Impedance = R;
         this -> counter_id = R_counter;
         this -> sign = "R" + to_string(counter_id);
         R_counter++;
@@ -118,11 +142,11 @@ class Resistance : public Element, protected Orientation{//wszystkie klasy musza
         return this -> R;
     }
 
-    virtual string get_sign() const override {//metody wirtualne, musza byc tutaj zdeklarowane aby moc wywolywac funkcje ustawiajace serial/parallel na obiektach typu element
+    virtual string get_sign() const override { //metody wirtualne, musza byc tutaj zdeklarowane aby moc wywolywac funkcje ustawiajace serial/parallel na obiektach typu element
         return this -> sign;
     }
 
-    virtual string get_reference_id() const override {//patrz wyzej, itd... w pozostalych klasach
+    virtual string get_reference_id() const override { //patrz wyzej, itd... w pozostalych klasach
         return this -> reference_id;
     }
 
@@ -277,27 +301,18 @@ class Inductance : public Element, protected Orientation{
 
 int Inductance::L_counter = 1;
 
-class Vsource : public Element, protected Orientation{
+class Vsource : public Element, protected Orientation, protected Source{
 
     private:
 
-    double E;
     static int E_counter;
 
     public:
 
-    Vsource(double e) : E(e), Orientation(){
+    Vsource(double amplitude, double omega, double phase) : Source(amplitude, omega, phase), Orientation(){
         this -> counter_id = E_counter;
         this -> sign = "E" + to_string(counter_id);
         E_counter++;
-    }
-
-    void set_E(double e){
-        this -> E = e;
-    }
-
-    double get_E() const {
-        return this -> E;
     }
 
     virtual string get_sign() const override {
@@ -315,27 +330,18 @@ class Vsource : public Element, protected Orientation{
 
 int Vsource::E_counter = 1;
 
-class Isource : public Element, protected Orientation{
+class Isource : public Element, protected Orientation, protected Source{
 
     private:
 
-    double J;
     static int J_counter;
 
     public:
 
-    Isource(double i) : J(i), Orientation(){
+    Isource(double amplitude, double omega, double phase) : Source(amplitude, omega, phase), Orientation(){
         this -> counter_id = J_counter;
         this -> sign = "J" + to_string(counter_id);
         J_counter++;
-    }
-
-    void set_J(double i){
-        this -> J = i;
-    }
-
-    double get_J() const {
-        return this -> J;
     }
 
     virtual string get_sign() const override {
