@@ -5,8 +5,10 @@
 #include <cmath>
 #include <functional>
 #include <complex>
+#include <limits>
 #include "Integration_trp.h"
 #include "Differentiation.h"
+#include "Signals.h"
 
 using namespace std;
 
@@ -20,6 +22,10 @@ class Element{ //klasa do polimorfizmu (wykorzystuje do podania dowolnego argume
 
     virtual string get_sign() const = 0; //metody wirtualne, musza byc tutaj zdeklarowane aby moc wywolywac funkcje ustawiajace serial/parallel na obiektach typu element
     virtual string get_reference_id() const = 0; 
+
+    complex<double> get_impedance() const {
+        return this -> Impedance;
+    }
 };
 
 class Source{
@@ -29,17 +35,35 @@ class Source{
     double Amplitude;
     double Omega;
     double Phase;
+    complex<double> Com_Eff_Val;
     function<double(double)> Fun;
     
     Source(double amplitude, double omega, double phase) : Amplitude(amplitude), Omega(omega), Phase(phase){
         auto fun = [this](double t) -> double{
             return (Amplitude) * sin(Omega * t + Phase);
         };
-        Fun = fun; 
+        Fun = fun;
+        Com_Eff_Val = ((this -> Amplitude)/(pow(2, (1/2)))) * ((cos(phase)) + complex<double>(0, sin(phase)));
     }
 
     function<double(double)> get_source_fun(){
         return this -> Fun;
+    }
+
+    double get_omega() const {
+        return this -> Omega;
+    }
+
+    double get_amplitude() const {
+        return this -> Amplitude;
+    }
+
+    double get_phase() const {
+        return this -> Phase;
+    }
+
+    complex<double> get_Com_Eff_Val() const {
+        return this -> Com_Eff_Val;
     }
 };
 
@@ -94,7 +118,7 @@ class Resistance : public Element, protected Orientation{ //wszystkie klasy musz
     public:
 
     Resistance(double r) : R(r), Orientation(){
-        this -> Impedance = R;
+        this -> Impedance = complex<double>(R, 0);
         this -> counter_id = R_counter;
         this -> sign = "R" + to_string(counter_id);
         R_counter++;
@@ -166,7 +190,15 @@ class Capacity : public Element, protected Orientation{
 
     public:
 
+    Capacity(double c, double omega) : C(c), Orientation(){
+        this -> Impedance = complex<double>(0, -(1/(omega * c)));
+        this -> counter_id = C_counter;
+        this -> sign = "C" + to_string(counter_id);
+        C_counter++;
+    }
+
     Capacity(double c) : C(c), Orientation(){
+        this -> Impedance = complex<double>((numeric_limits<double>::infinity()), 0);
         this -> counter_id = C_counter;
         this -> sign = "C" + to_string(counter_id);
         C_counter++;
@@ -238,7 +270,15 @@ class Inductance : public Element, protected Orientation{
 
     public:
 
+    Inductance(double l, double omega) : L(l), Orientation(){
+        this -> Impedance = complex<double>(0, (omega * l));
+        this -> counter_id = L_counter;
+        this -> sign = "L" + to_string(counter_id);
+        L_counter++;
+    }
+
     Inductance(double l) : L(l), Orientation(){
+        this -> Impedance = complex<double>(0, 0);
         this -> counter_id = L_counter;
         this -> sign = "L" + to_string(counter_id);
         L_counter++;
@@ -326,6 +366,10 @@ class Vsource : public Element, protected Orientation, protected Source{
     using Orientation::set_serial;
     using Orientation::set_parallel;
     using Orientation::is_it_serial;
+    using Source::get_amplitude;
+    using Source::get_omega;
+    using Source::get_phase;
+    using Source::get_Com_Eff_Val;
 };
 
 int Vsource::E_counter = 1;
@@ -355,6 +399,10 @@ class Isource : public Element, protected Orientation, protected Source{
     using Orientation::set_serial;
     using Orientation::set_parallel;
     using Orientation::is_it_serial;
+    using Source::get_amplitude;
+    using Source::get_omega;
+    using Source::get_phase;
+    using Source::get_Com_Eff_Val;
 };
 
 int Isource::J_counter = 1;
