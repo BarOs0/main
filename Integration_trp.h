@@ -11,7 +11,7 @@ double integrate(function<double(double)>f, double x1, double x2, const int n = 
     double dx = (x2 - x1) / n;//stala wartosc dlugosci podstawy trapezu - dx
 
     for (int i = 1; i < n; i++){//suma wszystkich wartosci wysokosci trapezow 'w srodku' funkcji w celu optymalizacji
-        sum += f(x1 + (i * dx));
+        sum += f(x1 + (i * dx));//są używane dwa razy: raz jako prawa podstawa jednego trapezu i raz jako lewa podstawa następnego trapezu. Dlatego nie muszą być dzielone przez dwa w pętli, ponieważ ich podwójne użycie jest już uwzględnione w sumie.
     }
 
     sum = (sum + (f(x1) + f(x2)) / 2) * dx;//obliczenie pola wszystkich trapezow razem z wysokosciami na krancach 
