@@ -15,14 +15,16 @@ int main(){
 
     Filter F1(E, R, C);
 
-    cout << " Xc = " << C.get_impedance().real() << " + " << C.get_impedance().imag() << endl;
+    cout << " Xc = " << C.get_impedance().real() << " + " << C.get_impedance().imag() << "j" << endl;
 
-    cout << " _E_ = " << E.get_Com_Eff_Val().real() << " + " << E.get_Com_Eff_Val().imag() << endl;
+    cout << " _E_ = " << E.get_Com_Eff_Val().real() << " + " << E.get_Com_Eff_Val().imag() << "j" << endl;
 
-    cout << " Zc = " << F1.get_Zc().real() << " + " << F1.get_Zc().imag() << endl;
+    cout << " Zc = " << F1.get_Zc().real() << " + " << F1.get_Zc().imag() << "j" << endl;
 
-    cout << " Output Voltage Complex: " << F1.get_vOutput().real() << " + " << F1.get_vOutput().imag() << endl;
+    cout << " Output Voltage Complex: " << F1.get_vOutput_cpx().real() << " + " << F1.get_vOutput_cpx().imag() << "j" << endl;
 
-    cout << "Absolute value of Output: " << abs(F1.get_vOutput()) << endl;
+    cout << "Absolute value of Output: " << abs(F1.get_vOutput_cpx()) << endl;
+
+    cout << " Output(1s) = " << F1.get_vOutput_fun()(1) << endl;
     
 }
