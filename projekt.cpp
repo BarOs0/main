@@ -13,7 +13,7 @@ int main(){
     
     R.set_serial(C);
 
-    Filter F1(E, R, C);
+    Filter F1(E, R, C, 0, 5, 1);
 
     cout << " Xc = " << C.get_impedance().real() << " + " << C.get_impedance().imag() << "j" << endl;
 
@@ -25,6 +25,5 @@ int main(){
 
     cout << "Absolute value of Output: " << abs(F1.get_vOutput_cpx()) << endl;
 
-    cout << " Output(1s) = " << F1.get_vOutput_fun()(1) << endl;
-    
+    F1.get_vOutput_value();
 }

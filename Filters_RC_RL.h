@@ -1,5 +1,6 @@
 #include "Elements.h"
 #include "Signals.h"
+#include "matplotlibcpp.h"
 
 using namespace std;
 
@@ -30,10 +31,14 @@ class Filter{
     }
 
     //RC/for funcional calculation
-    Filter(Vsource input_vsource, Resistance r, Capacity c, double start_time, double end_time, double time_step) : vInput(input_vsource), R(r), C(c), L(0), Start_time(start_time), End_time(end_time), Time_step(time_step){}
+    Filter(Vsource input_vsource, Resistance r, Capacity c, double start_time, double end_time, double time_step) : vInput(input_vsource), R(r), C(c), L(0), Start_time(start_time), End_time(end_time), Time_step(time_step){
+        this -> Zc = (r.get_impedance() + c.get_impedance());
+    }
 
     //RL/for functional calculation
-    Filter(Vsource input_vsource, Resistance r, Inductance l, double start_time, double end_time, double time_step) : vInput(input_vsource), R(r), C(0), L(l), Start_time(start_time), End_time(end_time), Time_step(time_step){}
+    Filter(Vsource input_vsource, Resistance r, Inductance l, double start_time, double end_time, double time_step) : vInput(input_vsource), R(r), C(0), L(l), Start_time(start_time), End_time(end_time), Time_step(time_step){
+        this -> Zc = (r.get_impedance() + l.get_impedance());
+    }
 
     complex<double> get_vOutput_cpx() const {
         complex<double> I = (this -> vInput.get_Com_Eff_Val())/(this -> Zc);
@@ -74,6 +79,12 @@ class Filter{
         };
 
         return vOutput_fun;
+    }
+
+    void get_vOutput_value(){
+        for(int i = this -> Start_time; i <= this -> End_time; i += this-> Time_step){
+            cout << "Output in: " << i << "s = " << this -> get_vOutput_fun()(i) << endl;
+        }
     }
 
     complex<double> get_Zc(){

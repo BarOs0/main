@@ -1,7 +1,6 @@
 #ifndef ELEMENTS_H
 #define ELEMENTS_H
 
-#include <iostream>
 #include <cmath>
 #include <functional>
 #include <complex>
